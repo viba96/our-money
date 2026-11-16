@@ -71,7 +71,7 @@
       .then(function (r) { return r.json(); })
       .then(function (res) {
         if (res && res.error === 'auth') { pass = ''; ls.del(K.pass); lastErr = 'auth'; showPass('That passcode is not right.'); return; }
-        if (!res || !res.ok || !res.data) { lastErr = 'server'; fails++; return; }
+        if (!res || !res.ok || !res.data) {lastErr = (res && (res.detail || res.error))? (res.detail || res.error): 'server';fails++;return;}
         fails = 0; lastErr = '';
         outbox = outbox.slice(sent.length); ls.set(K.out, JSON.stringify(outbox));
         var j = JSON.stringify(res.data), changed = j !== lastJson || !loaded;
